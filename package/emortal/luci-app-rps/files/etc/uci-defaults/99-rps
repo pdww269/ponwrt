@@ -1,0 +1,16 @@
+#!/bin/sh
+
+[ -e /etc/config/network ] || exit 0
+
+if ! uci -q get network.@globals[0].packet_steering >/dev/null; then
+	uci -q set network.globals="globals"
+	uci -q set network.@globals[0].packet_steering="2"
+fi
+
+if ! uci -q get network.@globals[0].steering_flows >/dev/null; then
+	uci -q set network.@globals[0].steering_flows="128"
+fi
+
+uci -q commit network
+
+exit 0
