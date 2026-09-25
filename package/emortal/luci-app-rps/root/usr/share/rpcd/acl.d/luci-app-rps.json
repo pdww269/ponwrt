@@ -1,0 +1,11 @@
+{
+	"luci-app-rps": {
+		"description": "Grant access to RPS configuration",
+		"read": {
+			"uci": [ "network" ]
+		},
+		"write": {
+			"uci": [ "network" ]
+		}
+	}
+}
