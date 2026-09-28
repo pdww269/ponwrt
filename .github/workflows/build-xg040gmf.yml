@@ -57,6 +57,7 @@ jobs:
           mkdir -p package/luci-app-airoha-npu
           rsync -a --exclude=.git --exclude=.github --exclude=luci-app-airoha-npu \
             "$tmpdir/airoha-npu/" package/luci-app-airoha-npu/
+          patch -d package/luci-app-airoha-npu -p1 < ci/patches/luci-app-airoha-npu-no-wifi.patch
           git clone --depth=1 https://github.com/rchen14b/luci-theme-glass.git package/luci-theme-glass
           cp ci/assets/luci-theme-glass/po/zh_Hans/glass.po package/luci-theme-glass/po/zh_Hans/glass.po
           git clone --depth=1 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
