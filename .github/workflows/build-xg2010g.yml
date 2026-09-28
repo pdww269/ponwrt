@@ -56,6 +56,7 @@ jobs:
           git clone --depth=1 https://github.com/rchen14b/luci-app-airoha-npu.git "$tmpdir/airoha-npu"
           cp -a "$tmpdir/airoha-npu/luci-app-airoha-npu" package/
           git clone --depth=1 https://github.com/rchen14b/luci-theme-glass.git package/luci-theme-glass
+          cp ci/assets/luci-theme-glass/po/zh_Hans/glass.po package/luci-theme-glass/po/zh_Hans/glass.po
           git clone --depth=1 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
           git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
           git clone --depth=1 https://github.com/eamonxg/luci-theme-aurora.git package/luci-theme-aurora
