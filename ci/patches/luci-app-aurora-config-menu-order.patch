@@ -1,0 +1,12 @@
+diff --git a/root/usr/share/luci/menu.d/luci-app-aurora.json b/root/usr/share/luci/menu.d/luci-app-aurora.json
+--- a/root/usr/share/luci/menu.d/luci-app-aurora.json
++++ b/root/usr/share/luci/menu.d/luci-app-aurora.json
+@@ -1,7 +1,7 @@
+ {
+   "admin/system/aurora": {
+     "title": "Aurora Theme Design",
+-    "order": 100,
++    "order": 89,
+     "action": {
+       "type": "firstchild"
+     },
