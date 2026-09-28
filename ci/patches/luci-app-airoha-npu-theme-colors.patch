@@ -1,0 +1,63 @@
+diff --git a/htdocs/luci-static/resources/view/airoha_npu/status.js b/htdocs/luci-static/resources/view/airoha_npu/status.js
+index 69d027c..4484d4e 100644
+--- a/htdocs/luci-static/resources/view/airoha_npu/status.js
++++ b/htdocs/luci-static/resources/view/airoha_npu/status.js
+@@ -12,43 +12,39 @@ var callSetMaxFreq = rpc.declare({ object: 'luci.airoha_npu', method: 'setMaxFre
+ var callSetOverclock = rpc.declare({ object: 'luci.airoha_npu', method: 'setOverclock', params: ['freq_mhz'] });
+ 
+ /*
+- * Every colour below comes from the custom properties LuCI themes export,
+- * with a literal fallback for a theme that does not define one. That is what
+- * makes the page follow the active theme, including its dark mode and its
+- * palette variants, without this file knowing which theme is running.
++ * Neutral surfaces and text inherit the active theme's currentColor and use
++ * translucent overlays for contrast. That works with Glass, Argon and Aurora
++ * in both light and dark modes without relying on variables one of them may
++ * not define. Status colours still use LuCI's custom properties.
+  *
+- * Text that sits on a filled surface takes its ink from the matching
+- * --on-*-color, because a hardcoded white fails against half of the dark
+- * fills, and a chip with no status colour is drawn as an outline rather than
+- * invented as a filled pair the tier makes no promise about. Nothing is
+- * declared on :root and every selector carries the package prefix, so the
+- * sheet cannot reach another application's page.
++ * Nothing is declared on :root and every selector carries the package prefix,
++ * so the sheet cannot reach another application's page.
+  */
+ var viewCSS = '\
+-.airoha-npu-card{background:var(--background-color-high,#fff);border:1px solid var(--border-color-medium,#d0d0d0);border-radius:8px;padding:14px;transition:border-color .3s}\
++.airoha-npu-card{background:rgba(127,127,127,.08);background:color-mix(in srgb,currentColor 6%,transparent);border:1px solid rgba(127,127,127,.25);border-color:color-mix(in srgb,currentColor 18%,transparent);border-radius:8px;padding:14px;color:inherit;transition:border-color .3s}\
+ .airoha-npu-card-active{border-color:var(--primary-color-medium,#2196f3)}\
+-.airoha-npu-title{font-weight:bold;font-size:14px;color:var(--text-color-highest,#111)}\
+-.airoha-npu-muted{color:var(--text-color-medium,#666)}\
+-.airoha-npu-text{color:var(--text-color-high,#222)}\
+-.airoha-npu-label{font-size:11px;color:var(--text-color-medium,#666)}\
++.airoha-npu-title{font-weight:bold;font-size:14px;color:inherit}\
++.airoha-npu-muted{color:color-mix(in srgb,currentColor 62%,transparent)}\
++.airoha-npu-text{color:inherit}\
++.airoha-npu-label{font-size:11px;color:color-mix(in srgb,currentColor 62%,transparent)}\
+ .airoha-npu-ok{color:var(--success-color-medium,#4caf50)}\
+ .airoha-npu-warn{color:var(--warn-color-medium,#ff9800)}\
+ .airoha-npu-error{color:var(--error-color-medium,#f44336)}\
+ .airoha-npu-chip{padding:1px 7px;border-radius:3px;font-size:10px;font-weight:600;text-transform:uppercase}\
+ .airoha-npu-chip-on{background:var(--success-color-high,#2e7d32);color:var(--on-success-color,#fff)}\
+-.airoha-npu-chip-off{background:none;border:1px solid var(--border-color-medium,#d0d7de);color:var(--text-color-medium,#666)}\
+-.airoha-npu-bar-track{background:var(--border-color-medium,#d0d7de);border-radius:4px;overflow:hidden}\
++.airoha-npu-chip-off{background:color-mix(in srgb,currentColor 3%,transparent);border:1px solid color-mix(in srgb,currentColor 22%,transparent);color:color-mix(in srgb,currentColor 62%,transparent)}\
++.airoha-npu-bar-track{background:color-mix(in srgb,currentColor 18%,transparent);border-radius:4px;overflow:hidden}\
+ .airoha-npu-bar-fill{height:100%;border-radius:4px;transition:width .5s}\
+ .airoha-npu-bar-ok{background:var(--success-color-high,#2e7d32)}\
+ .airoha-npu-bar-warn{background:var(--warn-color-high,#e65100)}\
+ .airoha-npu-bar-error{background:var(--error-color-high,#c62828)}\
+ .airoha-npu-bar-idle{background:var(--border-color-high,#9aa4ad)}\
+-.airoha-npu-freq-value{font-weight:bold;font-size:13px;color:var(--text-color-highest,#111);margin-bottom:4px}\
++.airoha-npu-freq-value{font-weight:bold;font-size:13px;color:inherit;margin-bottom:4px}\
+ .airoha-npu-freq-row{display:flex;align-items:center;gap:10px}\
+ .airoha-npu-freq-track{flex:1;width:100%;max-width:350px;height:12px}\
+ .airoha-npu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-bottom:10px;align-items:start}\
+ .airoha-npu-pse-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px}\
+-.airoha-npu-pse-cell{background:var(--background-color-high,#fff);border:1px solid var(--border-color-medium,#d0d0d0);border-radius:5px;padding:6px 8px;font-size:12px}\
++.airoha-npu-pse-cell{background:rgba(127,127,127,.06);background:color-mix(in srgb,currentColor 4%,transparent);border:1px solid rgba(127,127,127,.22);border-color:color-mix(in srgb,currentColor 16%,transparent);border-radius:5px;padding:6px 8px;font-size:12px}\
+ .airoha-npu-pse-cell-drop{border-color:var(--error-color-medium,#f44336)}\
+ ';
+ 

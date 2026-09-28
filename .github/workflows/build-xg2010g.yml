@@ -57,13 +57,17 @@ jobs:
           mkdir -p package/luci-app-airoha-npu
           rsync -a --exclude=.git --exclude=.github --exclude=luci-app-airoha-npu \
             "$tmpdir/airoha-npu/" package/luci-app-airoha-npu/
-          patch -d package/luci-app-airoha-npu -p1 < ci/patches/luci-app-airoha-npu-no-wifi.patch
+          patch --batch -d package/luci-app-airoha-npu -p1 < ci/patches/luci-app-airoha-npu-no-wifi.patch
+          patch --batch -d package/luci-app-airoha-npu -p1 < ci/patches/luci-app-airoha-npu-theme-colors.patch
           git clone --depth=1 https://github.com/rchen14b/luci-theme-glass.git package/luci-theme-glass
+          patch --batch -d package/luci-theme-glass -p1 < ci/patches/luci-theme-glass-menu-order.patch
           cp ci/assets/luci-theme-glass/po/zh_Hans/glass.po package/luci-theme-glass/po/zh_Hans/glass.po
           git clone --depth=1 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
           git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
+          patch --batch -d package/luci-app-argon-config -p1 < ci/patches/luci-app-argon-config-menu-order.patch
           git clone --depth=1 https://github.com/eamonxg/luci-theme-aurora.git package/luci-theme-aurora
           git clone --depth=1 https://github.com/eamonxg/luci-app-aurora-config.git package/luci-app-aurora-config
+          patch --batch -d package/luci-app-aurora-config -p1 < ci/patches/luci-app-aurora-config-menu-order.patch
           git clone --depth=1 https://github.com/qwe3017/luci-app.git "$tmpdir/qwe3017-luci-app"
           cp -a "$tmpdir/qwe3017-luci-app/luci-app-natmode" package/
           cp -a "$tmpdir/qwe3017-luci-app/luci-app-pon-status" package/

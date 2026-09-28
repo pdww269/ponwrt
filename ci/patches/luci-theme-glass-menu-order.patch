@@ -1,0 +1,12 @@
+diff --git a/root/usr/share/luci/menu.d/luci-theme-glass.json b/root/usr/share/luci/menu.d/luci-theme-glass.json
+--- a/root/usr/share/luci/menu.d/luci-theme-glass.json
++++ b/root/usr/share/luci/menu.d/luci-theme-glass.json
+@@ -1,7 +1,7 @@
+ {
+ 	"admin/system/glass": {
+ 		"title": "Glass Theme Config",
+-		"order": 90,
++		"order": 87,
+ 		"action": {
+ 			"type": "view",
+ 			"path": "system/glass"
