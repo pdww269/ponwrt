@@ -49,6 +49,21 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
+      - name: Add custom LuCI packages
+        run: |
+          rm -rf package/feeds/luci/luci-theme-argon package/feeds/luci/luci-app-argon-config
+          tmpdir=$(mktemp -d)
+          git clone --depth=1 https://github.com/rchen14b/luci-app-airoha-npu.git "$tmpdir/airoha-npu"
+          cp -a "$tmpdir/airoha-npu/luci-app-airoha-npu" package/
+          git clone --depth=1 https://github.com/rchen14b/luci-theme-glass.git package/luci-theme-glass
+          git clone --depth=1 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
+          git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
+          git clone --depth=1 https://github.com/eamonxg/luci-theme-aurora.git package/luci-theme-aurora
+          git clone --depth=1 https://github.com/eamonxg/luci-app-aurora-config.git package/luci-app-aurora-config
+          git clone --depth=1 https://github.com/qwe3017/luci-app.git "$tmpdir/qwe3017-luci-app"
+          cp -a "$tmpdir/qwe3017-luci-app/luci-app-natmode" package/
+          cp -a "$tmpdir/qwe3017-luci-app/luci-app-pon-status" package/
+
       - name: Configure an7583
         run: |
           ./scripts/kconfig.pl + configs/an7583.config configs/release.config > .config
