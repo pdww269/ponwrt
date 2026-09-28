@@ -54,7 +54,9 @@ jobs:
           rm -rf package/feeds/luci/luci-theme-argon package/feeds/luci/luci-app-argon-config
           tmpdir=$(mktemp -d)
           git clone --depth=1 https://github.com/rchen14b/luci-app-airoha-npu.git "$tmpdir/airoha-npu"
-          cp -a "$tmpdir/airoha-npu/luci-app-airoha-npu" package/
+          mkdir -p package/luci-app-airoha-npu
+          rsync -a --exclude=.git --exclude=.github --exclude=luci-app-airoha-npu \
+            "$tmpdir/airoha-npu/" package/luci-app-airoha-npu/
           git clone --depth=1 https://github.com/rchen14b/luci-theme-glass.git package/luci-theme-glass
           cp ci/assets/luci-theme-glass/po/zh_Hans/glass.po package/luci-theme-glass/po/zh_Hans/glass.po
           git clone --depth=1 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
