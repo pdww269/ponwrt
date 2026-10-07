@@ -72,9 +72,27 @@ jobs:
           cp -a "$tmpdir/qwe3017-luci-app/luci-app-natmode" package/
           cp -a "$tmpdir/qwe3017-luci-app/luci-app-pon-status" package/
 
+      - name: Replace PON stack with naoki66 ONU config
+        run: |
+          # The pbs05 PON userspace feed and naoki66's stack both define
+          # airoha-ponctl/airoha-pond/airoha-pon-debug; drop the feed copies so
+          # the ONU packages below are the only ones the build sees.
+          for pkg in airoha-pon-daemons airoha-ponctl airoha-pon-debug luci-app-pon luci-app-iptv; do
+            rm -rf "package/feeds/pon_userspace/$pkg"
+          done
+          git clone https://github.com/naoki66/OpenWrt_ONU_CONFIG.git "$RUNNER_TEMP/onu-config"
+          git -C "$RUNNER_TEMP/onu-config" checkout 00cd0c2186683484360950007040c1309bcb27fa
+          cp -a "$RUNNER_TEMP/onu-config/airoha-pon-daemons" package/
+          cp -a "$RUNNER_TEMP/onu-config/airoha-ponctl" package/
+          cp -a "$RUNNER_TEMP/onu-config/airoha-pon-debug" package/
+          cp -a "$RUNNER_TEMP/onu-config/luci-app-onu" package/
+          # Voice has no hardware on the MF board; the patch drops the page,
+          # its UCI package and its backend.
+          patch --batch -E -d package -p1 < ci/patches/luci-app-onu-remove-voice.patch
+
       - name: Configure an7583
         run: |
-          ./scripts/kconfig.pl + configs/an7583.config configs/release.config > .config
+          ./scripts/kconfig.pl + configs/an7583.config configs/release.config configs/mf-onu.config > .config
           make defconfig
 
       - name: Download sources
