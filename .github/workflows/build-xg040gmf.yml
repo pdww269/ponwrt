@@ -92,7 +92,8 @@ jobs:
 
       - name: Configure an7583
         run: |
-          ./scripts/kconfig.pl + configs/an7583.config configs/release.config configs/mf-onu.config > .config
+          # kconfig.pl's "+" operator is binary, so the third overlay is nested.
+          ./scripts/kconfig.pl + configs/an7583.config + configs/release.config configs/mf-onu.config > .config
           make defconfig
 
       - name: Download sources
